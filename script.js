@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var emojis = ['🍎', '🚀', '🌈', '🐼', '🍩', '🎈', '🌻', '🦊'];
+  var images = ["star.png", "bucket1.png", "droplet1.png", "droplet2.png", "bucket2.png", "Jerry Can.png", "polluted1.png", "polluted2.png"];
   var gameBoard = document.getElementById('gameBoard');
   var movesElement = document.getElementById('moves');
   var timerElement = document.getElementById('timer');
@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var restartButton = document.getElementById('restartButton');
   var statusMessage = document.getElementById('statusMessage');
   var confettiLayer = document.getElementById('confettiLayer');
-  var storageKey = 'emoji-memory-match-best-time';
-  var storageKey2 = 'emoji-memory-match-best-score';
+  var storageKey = 'img-memory-match-best-time';
+  var storageKey2 = 'img-memory-match-best-score';
   var cards = [];
   var firstCard = null;
   var secondCard = null;
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
     statusMessage.classList.remove('win');
   }
 
-  function createCard(emoji, index) {
+  function createCard(img, index) {
     var card = document.createElement('button');
     var inner = document.createElement('span');
     var frontFace = document.createElement('span');
@@ -123,14 +123,18 @@ document.addEventListener('DOMContentLoaded', function () {
     card.type = 'button';
     card.className = 'card';
     card.setAttribute('aria-label', 'Hidden card');
-    card.dataset.emoji = emoji;
+    card.dataset.img = img;
     card.dataset.index = String(index);
 
     inner.className = 'card-inner';
     frontFace.className = 'card-face card-front';
     backFace.className = 'card-face card-back';
-    backFace.textContent = emoji;
+    var image = document.createElement('img');
+image.src = img;
+image.alt = 'Memory card';
+image.className = 'card-image';
 
+backFace.appendChild(image);
     inner.appendChild(frontFace);
     inner.appendChild(backFace);
     card.appendChild(inner);
@@ -141,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function buildBoard() {
-    var cardValues = shuffle(emojis.concat(emojis));
+    var cardValues = shuffle(images.concat(images));
 
     gameBoard.innerHTML = '';
     cards = [];
@@ -167,12 +171,12 @@ document.addEventListener('DOMContentLoaded', function () {
     secondCard.classList.add('matched');
     firstCard.disabled = true;
     secondCard.disabled = true;
-    firstCard.setAttribute('aria-label', 'Matched card ' + firstCard.dataset.emoji);
-    secondCard.setAttribute('aria-label', 'Matched card ' + secondCard.dataset.emoji);
+    firstCard.setAttribute('aria-label', 'Matched card ' + firstCard.dataset.img);
+    secondCard.setAttribute('aria-label', 'Matched card ' + secondCard.dataset.img);
     matchedPairs += 1;
     disableMatchedCards();
 
-    if (matchedPairs === emojis.length) {
+    if (matchedPairs === images.length) {
       endGame();
     }
 
@@ -197,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
     moves += 1;
     movesElement.textContent = String(moves);
 
-    if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+    if (firstCard.dataset.img === secondCard.dataset.img) {
       markMatchedCards();
       return;
     }
