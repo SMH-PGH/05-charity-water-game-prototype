@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var gameBoard = document.getElementById('gameBoard');
   var movesElement = document.getElementById('moves');
   var timerElement = document.getElementById('timer');
+  var bestTimeElement = document.getElementById('bestTime');
   var bestScoreElement = document.getElementById('bestScore');
   var restartButton = document.getElementById('restartButton');
   var statusMessage = document.getElementById('statusMessage');
   var confettiLayer = document.getElementById('confettiLayer');
-  var storageKey = 'emoji-memory-match-best-score';
-
+  var storageKey = 'emoji-memory-match-best-time';
+  var storageKey2 = 'emoji-memory-match-best-score';
   var cards = [];
   var firstCard = null;
   var secondCard = null;
@@ -18,10 +19,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var timerId = null;
   var timerStarted = false;
   var elapsedSeconds = 0;
+  var bestTime = null;
   var bestScore = null;
+  function loadBestTime() {
+    var savedTime = localStorage.getItem(storageKey);
 
+    if (savedTime !== null) {
+      bestTime = Number(savedTime);
+    }
+
+    renderBestTime();
+  }
   function loadBestScore() {
-    var savedScore = localStorage.getItem(storageKey);
+    var savedScore = localStorage.getItem(storageKey2);
 
     if (savedScore !== null) {
       bestScore = Number(savedScore);
@@ -30,13 +40,21 @@ document.addEventListener('DOMContentLoaded', function () {
     renderBestScore();
   }
 
+  function renderBestTime() {
+    if (bestTime === null || Number.isNaN(bestTime)) {
+      bestTimeElement.textContent = '--';
+      return;
+    }
+
+    bestTimeElement.textContent = formatTime(bestTime);
+  }
   function renderBestScore() {
     if (bestScore === null || Number.isNaN(bestScore)) {
       bestScoreElement.textContent = '--';
       return;
     }
 
-    bestScoreElement.textContent = bestScore + ' moves';
+    bestScoreElement.textContent = String(bestScore);
   }
 
   function shuffle(array) {
@@ -236,16 +254,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 2600);
   }
 
+  function updateBestTime() {
+    if (bestTime === null || elapsedSeconds < bestTime) {
+      bestTime = elapsedSeconds;
+      localStorage.setItem(storageKey, String(bestTime));
+      renderBestTime();
+    }
+  }
   function updateBestScore() {
     if (bestScore === null || moves < bestScore) {
       bestScore = moves;
-      localStorage.setItem(storageKey, String(bestScore));
+      localStorage.setItem(storageKey2, String(bestScore));
       renderBestScore();
     }
   }
-
   function endGame() {
     stopTimer();
+    updateBestTime();
     updateBestScore();
     statusMessage.classList.add('win');
     statusMessage.textContent = 'You won in ' + moves + ' moves and ' + formatTime(elapsedSeconds) + '!';
@@ -259,8 +284,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   restartButton.addEventListener('click', restartGame);
-
   loadBestScore();
+  loadBestTime();
   resetGameState();
   buildBoard();
 });// Log a message to the console to ensure the script is linked correctly
