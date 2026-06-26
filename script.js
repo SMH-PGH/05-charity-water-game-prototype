@@ -233,11 +233,11 @@ backFace.appendChild(image);
   }
 
   function createConfetti() {
-    var colors = ['#f28f3b', '#ffcc4d', '#5b8def', '#68bb7f', '#f45b69'];
+    var colors = ['#8BD1CB',  '#4FCB53',  '#FF902A',  '#F5402C',  '#159A48',  '#F16061']; 
 
     confettiLayer.innerHTML = '';
 
-    for (var index = 0; index < 28; index++) {
+    for (var index = 0; index <50; index++) {
       var piece = document.createElement('span');
       var leftOffset = Math.random() * 100;
       var delay = Math.random() * 0.3;

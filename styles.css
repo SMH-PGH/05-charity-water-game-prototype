@@ -13,8 +13,8 @@
   --accent-rgb: 255, 201, 7;
   --text: #18304b;
   --muted: #66758c;
-  --card-back-top: #2E9DF7;
-  --card-back-bottom: #1B82D6;
+  --card-back-top: #ffffff;
+  --card-back-bottom: #ffffff;
   --card-front: #ffffff;
   --matched-bg: #e4f8de;
   --matched-border: #76c96d;
@@ -29,11 +29,12 @@
   --space-4: 24px;
 }
 .card-image {
-  width: 10vw;
-  height: 10vw;
-  content:center;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  overflow: hidden;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -49,7 +50,7 @@ body {
   place-items: center;
   font-family: 'Nunito', sans-serif;
   color: var(--text);
-  background: var(--page-bg-start);
+  background: #eaf7ff;
 }
 
 button,
@@ -74,14 +75,36 @@ button {
   margin-bottom: var(--space-4);
   animation: fadeInUp 0.6s ease both;
 }
-
+#logo {
+  width: 3em;
+  height: 3em;
+  display: block;
+  object-fit: contain;
+  flex: 0 0 auto;
+  transform: translateY(-0.04em);
+}
 .eyebrow {
   margin: 0 0 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--primary-dark);
+}
+
+.eyebrow-text {
+  display: inline-block;
+}
+
+.eyebrow-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 h1 {
@@ -107,10 +130,9 @@ h1 {
   align-items: stretch;
   margin: 0 0 var(--space-4);
   padding: var(--space-3);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  backdrop-filter: blur(14px);
+  background: #ffffff;
   box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 201, 7, 0.16);
 }
 
 .stat {
@@ -120,8 +142,8 @@ h1 {
   min-height: 88px;
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  background: var(--surface-strong);
-  box-shadow: inset 0 0 0 1px rgba(46, 157, 247, 0.08);
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(46, 157, 247, 0.12);
   text-align: center;
 }
 
@@ -129,7 +151,7 @@ h1 {
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: var(--muted);
+  color: var(--primary-dark);
   text-transform: uppercase;
 }
 
@@ -224,8 +246,8 @@ h1 {
 }
 
 .card-front {
-  background: var(--surface-strong);
-  border: 2px solid rgba(255, 255, 255, 0.14);
+  background: var(--accent);
+  border: 2px solid var(--accent-dark);
   overflow: hidden;
 }
 
@@ -233,12 +255,14 @@ h1 {
   content: '💧';
   font-size: clamp(1.6rem, 4vw, 2.2rem);
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.14));
+  color: var(--primary-dark);
 }
 
 .card-back {
   transform: rotateY(180deg);
   background: #ffffff;
-  border: 2px solid rgba(46, 157, 247, 0.10);
+  border: 2px solid rgba(46, 157, 247, 0.22);
+  padding: 10px;
   font-size: clamp(2rem, 6vw, 3rem);
   color: var(--primary-dark);
 }
@@ -272,16 +296,17 @@ h1 {
   width: min(100%, 760px);
   padding: 14px 18px;
   border-radius: var(--radius-md);
-  background: var(--surface);
+  background: #ffffff;
   box-shadow: var(--shadow-md);
   text-align: center;
   font-size: 1.03rem;
   color: var(--text);
+  border: 1px solid rgba(255, 201, 7, 0.16);
 }
 
 .status-message.win {
-  background: #fff2ce;
-  box-shadow: 0 0 0 2px rgba(255, 201, 7, 0.12), var(--shadow-md);
+  background: #fff1b8;
+  box-shadow: 0 0 0 2px rgba(255, 201, 7, 0.18), var(--shadow-md);
   animation: winPulse 700ms ease;
 }
 
